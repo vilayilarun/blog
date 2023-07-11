@@ -1,0 +1,25 @@
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2 col-md-push-5 text-center">
+							<div id="colorlib-logo"><a href="/"><i class="icon-cogs"></i>DevOps</a></div>
+						</div>
+						<div class="col-md-5 col-md-pull-2 text-right menu-1">
+							<ul>
+								<li><a href="{% url 'blogs' %}">Home</a></li>
+								<li class="has-dropdown">
+									<a href="{% url 'gallery' %}">Scribblings</a>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-5 text-left menu-1">
+							<ul>
+								<li><a href="{% url 'about' %}">About</a></li>
+								<li><a href="{% url 'contact' %}">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>

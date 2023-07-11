@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<style>
+	.article-entry{
+		margin-top: 20px;
+	}
+</style>
+{% endblock %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+
+		<section id="home" class="video-hero" style="height: 100vh; background-image: url(/static/images/cover_img_2.jpg);  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay" style="height:100vh;"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-10 col-md-offset-1">
+							<div class="animate-box">
+								<h2>Blog</h2>
+								<p class="breadcrumbs"><span><a href="/">Home</a></span> <span>Blog</span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="colorlib-blog" id="blog">
+			<div class="container">
+				<div class="row">
+					{% for blog in blogs %}
+					<div class="col-md-4 animate-box">
+						<article class="article-entry">
+							<a href="{% url 'detail' blog.slug %}" class="blog-img" style="background-image: url({{blog.image.url}});"></a>
+							<div class="desc">
+								<h2><a href="{% url 'detail' blog.slug %}">{{ blog.title }}</a></h2>
+								<p>{{ blog.body|safe|truncatechars:150 }}</p>
+							</div>
+							<div class="admin">
+								<p><span class="day"><i class="icon-calendar"></i> {{ blog.date }}</span> <span><a href="#"><i class="icon-bubble3"></i> {{blog.visit_count}}</a></span></p>
+							</div>
+						</article>
+					</div>
+					{% endfor %}
+				</div>
+				<div class="row" align="center">
+				{% if is_paginated %}
+
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}&#blog">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}&#blog">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}&#blog">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+
+{% endif %}
+				</div>
+			</div>
+		</div>
+
+{% endblock %}
+

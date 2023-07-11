@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}{{ blog.title }}{% endblock %}
+{% block extra_css %}
+<style>
+	{% if not request.user_agent.is_mobile %}
+	.colorlib-about-flex{
+		margin-left: 50px;
+	}
+	.gallery-class{
+		margin-left: 0px !important;
+		margin-right: 0px !important;
+	}
+	{% endif %}
+	.gototop {
+    position: fixed;
+    bottom: 130px;
+    right: 20px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+}
+</style>
+     <link rel="stylesheet" type="text/css" href="/static/css/jquery.floating-social-share.min.css" />
+
+{% endblock %}
+{% block content %}
+
+		<section id="home" class="video-hero" style="height: 800px; background-image: url({{ blog.banner_image.url }});  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay" id="share"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-10 col-md-offset-1">
+							<div class="animate-box">
+								<h1 class="holder"><span>{{ blog.banner_title }}</span></h1>
+								<h2>{{ blog.title }}</h2>
+								<p>{{ blog.date }}</p>
+								<p><a href="{% url 'gallery' %}" class="btn btn-primary btn-custom">View Gallery</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div id="colorlib-services">
+			<!--<div class="container">-->
+				<!--<div class="row">-->
+					<!--<div class="col-md-4 text-center animate-box">-->
+						<!--<div class="services">-->
+							<!--<span class="icon">-->
+								<!--<i class="icon-camera4"></i>-->
+							<!--</span>-->
+							<!--<div class="desc">-->
+								<!--<h3>Photography</h3>-->
+								<!--<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="col-md-4 text-center animate-box">-->
+						<!--<div class="services">-->
+							<!--<span class="icon">-->
+								<!--<i class="icon-image2"></i>-->
+							<!--</span>-->
+							<!--<div class="desc">-->
+								<!--<h3>Image Processing</h3>-->
+								<!--<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="col-md-4 text-center animate-box">-->
+						<!--<div class="services">-->
+							<!--<span class="icon">-->
+								<!--<i class="icon-video3"></i>-->
+							<!--</span>-->
+							<!--<div class="desc">-->
+								<!--<h3>Videography</h3>-->
+								<!--<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>-->
+								<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		</div>
+
+		<div class="colorlib-about-flex">
+			<div class="col-half about-flex-img animate-box" style="background-image: url({{ blog.main_image.url }});"></div>
+			<div class="col-half">
+				<div class="row">
+					<div class="col-md-12 col-md-pull-2 animate-box">
+						<div class="about-desc">
+							<h2>{{ blog.title }}</h2>
+							<p>{{ blog.body|safe }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-gallery">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
+						<h2>Gallery</h2>
+						<p>{% if blog.gallery_info %}{{ blog.gallery_info }}{% endif %}</p>
+					</div>
+				</div>
+				<div class="row gallery-class">
+					{% for g_image in blog.gallery_images.all %}
+					<div class="col-md-3 no-gutters">
+						{% if g_image.image %}
+						<a href="{{g_image.image.url}}" class="gallery-img image-popup-link animate-box"><img class="img-responsive" src="{{g_image.image.url}}" alt="">
+						{% endif %}
+							<div class="desc text-center">
+								<h2>{% if g_image.name %}{{g_image.name}}{% endif %}</h2>
+							</div>
+						</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="colorlib-blog">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
+						<h2>Recent Blog</h2>
+						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name</p>
+					</div>
+				</div>
+				<div class="row">
+					{% for blog in similar_blog %}
+					<div class="col-md-4 animate-box">
+						<article class="article-entry">
+							<a href="{% url 'detail' blog.slug %}" class="blog-img" style="background-image: url({{blog.image.url}});"></a>
+							<div class="desc">
+								<h2><a href="{% url 'detail' blog.slug %}">{{ blog.title }}</a></h2>
+								<p>{{ blog.body|safe|truncatechars:150 }}</p>
+							</div>
+							<div class="admin">
+								<p><span class="day"><i class="icon-calendar"></i> {{ blog.date }}</span> <span><a href="#"><i class="icon-bubble3"></i> {{blog.visit_count}}</a></span></p>
+							</div>
+						</article>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="/static/js/jquery.floating-social-share.min.js"></script>
+
+    <script>
+      $("body").floatingSocialShare({
+        buttons: [
+          "facebook", "google-plus", "linkedin",  "twitter", "whatsapp"
+        ],
+        twitter_counter: true,
+        text: "share with: ",
+        place: "top-right",
+        title: document.title,
+        url: window.location.href0,
+        <!--url: "{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{request.path}}"-->
+      });
+    </script>
+{% endblock %}
+
+

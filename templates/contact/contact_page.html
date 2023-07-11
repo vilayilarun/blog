@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<style>
+	.error{
+		color: red;
+	}
+</style>
+{% endblock %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+
+
+		<section id="home" class="video-hero" style="height: 100vh; background-image: url(/static/images/cover_img_2.jpg);  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay" style="height: 100vh;"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-10 col-md-offset-1">
+							<div class="animate-box">
+								<h2>Contact Us</h2>
+								<p class="breadcrumbs"><span><a href="/">Home</a></span> <span>Contact</span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div id="colorlib-contact">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12  animate-box">
+						<h2>Get In Touch</h2>
+						<!--<form action="#">-->
+							<form id="contactform" action="" method="post">
+								{% csrf_token %}
+							<div class="row form-group">
+								<div class="col-md-6">
+									<input type="text" id="id_first_name" onkeyup="removeError('first_name')" name="first_name" class="form-control" placeholder="Your firstname">
+									<span id="first_name" class="error"></span>
+								</div>
+								<div class="col-md-6">
+									<input type="text" id="id_last_name" name="last_name" onkeyup="removeError('last_name)" class="form-control" placeholder="Your lastname">
+									<span id="last_name" class="error"></span>
+								</div>
+							</div>
+
+							<div class="row form-group">
+								<div class="col-md-12">
+									<input type="text" id="id_email" name="email" onkeyup="removeError('email')" class="form-control" placeholder="Your email address">
+									<span id="email" class="error"></span>
+								</div>
+							</div>
+
+							<div class="row form-group">
+								<div class="col-md-12">
+									<input type="text" id="id_subject" name="subject" onkeyup="removeError('subject')" class="form-control" placeholder="Your subject of this message">
+									<span id="subject" class="error"></span>
+								</div>
+							</div>
+
+							<div class="row form-group">
+								<div class="col-md-12">
+									<textarea name="message" id="id_message" cols="30" onkeyup="removeError('message')" rows="10" class="form-control" placeholder="Say something about us"></textarea>
+									<span id="message" class="error"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<button id="btn-submit" class="btn btn-primary"> Send Message </button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
+{% block extra_js %}
+
+<script>
+
+function removeError(id){
+	document.getElementById(id).innerHTML = "";
+}
+
+var count = 0;
+$('#btn-submit').click(function() {
+	<!--document.getElementById("success-message").innerHTML = "";-->
+	var data = $('#contactform').serialize();
+	var url = "{% url 'contact' %}"
+	$('.error').html("");
+    $('#successful').html("");
+    document.getElementById("btn-submit").innerHTML = "SENDING...";
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: data,
+		cache : false,
+		processData: false,
+
+		success: function (response) {
+			if (response.status == 'success') {
+				$('.error').remove();
+				document.getElementById("btn-submit").innerHTML = "Send Message";
+				document.getElementById("success-message").innerHTML = "Message Sent Successfully";
+				$('#contactform')[0].reset();
+			}
+			else if (response.result.status == 'form_error') {
+				document.getElementById("btn-submit").innerHTML = "Send Message";
+
+				$("#contactform :input:not(input[type='hidden'],input[type='submit'])").each(function () {
+					var current = $(this).parent();
+					var current_name = $(this).attr('name');
+					$.each(response.result.errors, function (index, value) {
+						if (current_name == index) {
+							$('#'+current_name).html(value);
+						}
+					});
+				});
+			}
+		},
+		error: function(error){}
+	});
+	return false;
+});
+</script>
+{% endblock %}

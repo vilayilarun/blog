@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}About{% endblock %}
+{% block content %}
+
+		<section id="home" class="video-hero" style="height: 100vh; background-image: url(/static/images/cover_img_2.jpg);  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay" style="height: 100vh;"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-10 col-md-offset-1">
+							<div class="animate-box">
+								<h2>About Me</h2>
+								<p class="breadcrumbs"><span><a href="/">Home</a></span> <span>About</span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div id="colorlib-about">
+			<div class="container">
+				<div class="row row-pb-lg">
+					<div class="col-md-6 animate-box">
+						<div class="video colorlib-video" {% if about.image %}style="background-image: url({{about.image.url}});"{% endif %}>
+							<a href="{{about.video}}" class="popup-vimeo"><i class="icon-play3"></i></a>
+							<div class="overlay"></div>
+						</div>
+					</div>
+					<div class="col-md-6 animate-box">
+						<h2>{{about.title}}</h2>
+						<p>{{about.description|safe}}</p>
+					</div>
+				</div>
+
+				<div class="row">
+					{% for social in about.social_profiles.all %}
+					<div class="col-md-3 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" {% if social.image %}style="background-image: url({{social.image.url}});"{% endif %}></a>
+							<div class="desc">
+								<h3>{{ social.site }}</h3>
+								<a href="{{social.profile.link}}">Visit</a>
+								<p>{{ social.description|safe }}</p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+{% endblock %}
+

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Scribblings{% endblock %}
+{% block content %}
+
+		<section id="home" class="video-hero" style="height: 100vh; background-image: url(/static/images/cover_img_2.jpg);  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay" style="height:100vh;"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-10 col-md-offset-1">
+							<div class="animate-box">
+								<h2>Scribblings</h2>
+								<p class="breadcrumbs"><span><a href="/">Home</a></span> <span>Scribblings</span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="colorlib-gallery" id="gallery">
+			<div class="container">
+				<div class="row row-pb-md">
+					{% for image in images %}
+					<div class="col-md-3 no-gutters">
+						<a href="{{image.image.url}}" class="gallery-img image-popup-link animate-box">
+							<img class="img-responsive" src="{{image.image.url}}" alt="">
+							<div class="desc text-center">
+								<h2>{% if image.title %}{{image.title}}{% endif %}</h2>
+								<p class="category"><span>{% if image.category %}{{image.category}}{% endif %}</span></p>
+							</div>
+						</a>
+					</div>
+					{% endfor %}
+
+				</div>
+				<div class="row" align="center">
+				{% if is_paginated %}
+
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}&#gallery">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}&#gallery">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}&#test">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+
+{% endif %}
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}

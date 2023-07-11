@@ -1,0 +1,50 @@
+
+<!doctype html>
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+</head>
+
+<body>
+<table  border="0" width="500px" align="center" style=" table-layout:fixed;font-family:Arial, sans-serif; text-align:center;">
+    <tr>
+        <td>
+            <!--<img  src="http://206.189.129.28/static/image/catalog/logo.jpg" width="80%" height="70" alt="Logo"/>-->
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <hr style="border-top: 1px solid #f1f1f1; background: transparent;"/>
+        </td>
+    </tr>
+    <tr>
+        <td><h1 style="color:#666;  font-size:30px;">You have a new contact message from <br>{{ formentry.first_name }} {{ formentry.last_name }}</h1></td>
+    </tr>
+    <tr>
+        <td style="color:#999;font-size:20px; ">Subject : {{ formentry.subject }}</td>
+    </tr>
+    <tr>
+    <tr>
+        <td style="color:#999;font-size:20px; "> email : {{ formentry.email }}</td>
+    </tr>
+    <tr>
+        <td style="color:#999;font-size:20px; ">Message</td></tr>
+    <tr>
+       <td width="50%" style="color:#999;font-size:20px;word-wrap:break-word;white-space:pre-wrap;word-break:break-all;"> {{ formentry.message }}</td>
+    </tr>
+
+    <tr>
+        <td><a target="_blank" href="mailto:{{ formentry.email }}" style="border-radius:5px; background:#0F99D3; text-decoration:none;  color:white; padding:8px 18px; margin:10px auto 20px auto; display:block; width:200px;">Click Here</a></td>
+    </tr>
+    <tr>
+        <td>
+            <hr style="border-top: 1px solid #f1f1f1; background: transparent;"/>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

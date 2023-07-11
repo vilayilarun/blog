@@ -1,0 +1,17 @@
+Django
+django-cms
+django-filer
+djangocms-text-ckeditor
+easy-thumbnails
+mysqlclient
+django-autoslug
+django-ckeditor
+django-autoslug
+django-solo
+ua-parser
+user-agents
+PyYAML
+django-user-agents
+phonenumbers
+Pillow
+psycopg2
